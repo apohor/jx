@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/jenkins-x/jx/pkg/log"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
@@ -51,7 +52,13 @@ func (o *CommonOptions) CreateGitAuthConfigServiceFromSecrets(fileName string, s
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to find development namespace")
 	}
-	authConfigSvc, err := o.factory.CreateAuthConfigService(fileName, 'jx')
+
+	if namespace == "default" {
+		log.Warnf("WARNING: Current workspace is default, changing to jx!!!")
+		namespace = "jx"
+	}
+
+	authConfigSvc, err := o.factory.CreateAuthConfigService(fileName, namespace)
 	if err != nil {
 		return authConfigSvc, err
 	}
