@@ -51,7 +51,7 @@ func (o *CommonOptions) CreateGitAuthConfigServiceFromSecrets(fileName string, s
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to find development namespace")
 	}
-	authConfigSvc, err := o.factory.CreateAuthConfigService(fileName, namespace)
+	authConfigSvc, err := o.factory.CreateAuthConfigService(fileName, 'jx')
 	if err != nil {
 		return authConfigSvc, err
 	}
